@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "roadroller": "^2.1.0"
+  },
+  "scripts": {
+  "regmin": "cd minified && terser -o src.js -c passes=2 -m toplevel -- ../\"Main Build\"/src.js && cd ../ && npm run zipmin",
+  "maxmin": "cd minified && terser -o src.js -c passes=2 -m toplevel -- ../\"Main Build\"/src.js && npx roadroller src.js -o src.js && cd ../ && npm run zipmin",
+  "zipmin": "zip -r game.zip ./minified/ -x \".DS_Store\" -x \"__MACOSX\" && advzip -z -4 game.zip"
+  }
+}

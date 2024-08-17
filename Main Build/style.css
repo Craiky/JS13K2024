@@ -1,0 +1,28 @@
+body{
+    background: #000000;
+}
+
+#c, #v{
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+    z-index: 1;
+}
+
+#g{
+    display: none;
+}
+
+#v{
+    background: radial-gradient(transparent, #000000c2);
+    z-index: 2;
+}
+
+h1 {
+    color: red;
+    font-size: 50px;
+    text-align: center;
+}

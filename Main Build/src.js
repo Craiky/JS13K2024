@@ -4,13 +4,12 @@ let canvas = document.getElementById("c")
 let ctx = canvas.getContext("2d")
 
 //Buffer Canvas
-//Why do we need a buffer and a game canvas?
+
 let canv = document.getElementById("g")
 let gfx = canv.getContext("2d")
 
 //resizing Canvas
 window.onresize = () => {
-    //not sure what is v
 
     // v.style.width = v.style.height = canvas.width = canvas.height = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight
     // sF = canvas.width/700
@@ -90,4 +89,27 @@ function keyUp(evt) {
 function onClick (evt) {
     
 }
+
+// objects and classes
+let player = {
+    x:0,
+    y:0,
+    health:1,
+    drawPlayer() {
+
+    },
+
+}
+
+let taylorSwift = {
+    x:0,
+    y:0,
+    health:1,
+
+}
+
+//enemy classes
+// I think we should have multiple different types of enemies, but we can worry about this later
+
+
 //Helper Functions

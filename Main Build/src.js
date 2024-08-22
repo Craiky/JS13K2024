@@ -4,6 +4,7 @@ let canvas = document.getElementById("c")
 let ctx = canvas.getContext("2d")
 
 //Buffer Canvas
+//Why do we need a buffer and a game canvas?
 let canv = document.getElementById("g")
 let gfx = canv.getContext("2d")
 
@@ -16,8 +17,7 @@ let mylatesttap;
 
 //resizing Canvas
 window.onresize = () => {
-    //set canvas width and height
-    canvas.width = canvas.height = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight
+    //not sure what is v
 
     //normalize everthing to a 700x700 game size
     sF = canvas.width/700
@@ -25,118 +25,51 @@ window.onresize = () => {
 
 //set up & stuff
 window.onload = () => {
-    canv.width = window.innerWidth
-    canv.height = window.innerHeight*10
+    canv.width = window.innerWidth;
+    canv.height = window.innerHeight;
 
-    onresize()
+    gameLoop();
 
-    document.title = "Loading..."
-
-    //createSpriteSheet()
-
-    gameLoop()
-    document.title = "Cleansing Taylor"
-}
-
-
-//Game Loop
-function gameLoop() {
-
-    canvas.width ^= 0
-
-    ctx.save()
-    ctx.scale(sF,sF)
-
-    updateGame()
-    drawGame()
-
-    ctx.restore()
-
-    window.requestAnimationFrame(gameLoop);
-}
-
-
-//Update Loop
-function updateGame(){
-
-}
-
-//Draw Loop
-function drawGame(){
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-canvas.addEventListener("mousedown",inputStart)
-canvas.addEventListener("mouseup",inputEnd)
-
-window.addEventListener("keydown",keyDown)
-window.addEventListener("keyup",keyUp)
-
-
-function inputEnd(){
-    click = 0;
-}
-
-function inputStart(e){
-    e.preventDefault()
-
-    if(e.which == 1 || e.which == 0){
-        click = {
-        x:(e.clientX-v.getBoundingClientRect().left)/sF,
-        y:(e.clientY-v.getBoundingClientRect().top)/sF
-        };
-
-        var now = new Date().getTime();
-
-        //var timesince = now - mylatesttap;
-
-        //mylatesttap = new Date().getTime();
-    }
+    window.addEventListener("keyup",keyUp);
+    window.addEventListener("keydown",keyDown);
 }
 
 //game loop
 
+function gameLoop() {
 
+    window.requestAnimationFrame(gameLoop); //why not use an interval instead?
+}
 //Keybind Functions
 
+//controls for the game (desktop)
+/*
+w a s d, for movement, self explanotory
+space for dodge
+e for interact with objects
+click for attack, sword follows mouse movement
+
+*/
 function keyDown (evt) {
-    if (evt.key == "ArrowUp" || evt.key == "w" ) {
+    if (evt.key == "ArrowUp" || evt.key == "w" || evt.key == "z") { //z is for European keyboards
         console.log('up')
     }
     if (evt.key == "ArrowLeft" || evt.key == "a") {
         console.log('left')
     }
-    if (evt.key == "ArrowDown" || evt.key == "s") {
+    if (evt.key == "ArrowDown" || evt.key == "s" || evt.key == "q") { //q for European keyboards
         console.log('down')
     }
     if (evt.key == "ArrowRight" || evt.key == "d") {
         console.log('right')
     }
+    if (evt.key == " ") {
+        console.log('space');
+    }
+    if (evt.key == "e") {
+        console.log('interact');
+    }
+    
 }
 
 function keyUp(evt) {
@@ -152,5 +85,43 @@ function keyUp(evt) {
     if (evt.key == "ArrowRight" || evt.key == "d") {
         console.log('right')
     }
+    if (evt.key == " ") {
+        console.log('space');
+    }
+    if (evt.key == "e") {
+        console.log('interact');
+    }
 }
+function onClick (evt) {
+    
+}
+
+// objects and classes
+let player = {
+    x:0,
+    y:0,
+    health:1,
+    draw() {
+
+    },
+
+}
+
+let taylorSwift = {
+    x:0,
+    y:0,
+    health:1,
+    draw() {
+
+    },
+    AI () {
+
+    }
+
+}
+
+//enemy classes
+// I think we should have multiple different types of enemies, but we can worry about this later
+
+
 //Helper Functions

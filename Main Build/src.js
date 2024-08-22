@@ -31,8 +31,25 @@ window.onload = () => {
 //game loop
 
 function gameLoop() {
-
+    
     window.requestAnimationFrame(gameLoop); //why not use an interval instead?
+    drawGame();
+    updateGame();
+
+
+}
+
+//drawing the game
+function drawGame () {
+    ctx.save();
+    ctx.fillStyle = "white";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.restore()
+}
+//updating the game
+function updateGame() {
+
 }
 //Keybind Functions
 
@@ -95,7 +112,7 @@ let player = {
     x:0,
     y:0,
     health:1,
-    drawPlayer() {
+    draw() {
 
     },
 
@@ -105,6 +122,12 @@ let taylorSwift = {
     x:0,
     y:0,
     health:1,
+    draw() {
+
+    },
+    AI () {
+
+    }
 
 }
 

@@ -2,7 +2,7 @@ body{
     background: #000000;
 }
 
-#c, #v{
+#v{
     position: absolute;
 
     top: 50%;
@@ -14,11 +14,6 @@ body{
 
 #g{
     display: none;
-}
-
-#v{
-    background: radial-gradient(transparent, #000000c2);
-    z-index: 2;
 }
 
 h1 {

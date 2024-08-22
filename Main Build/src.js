@@ -4,19 +4,26 @@ let canvas = document.getElementById("c")
 let ctx = canvas.getContext("2d")
 
 //Buffer Canvas
-
+//Why do we need a buffer and a game canvas?
 let canv = document.getElementById("g")
 let gfx = canv.getContext("2d")
 
 //variables and whatnot
 
 let frictionCoefficient = 0.5;
+//Scale factor
+let sF = 1
+
+let click = 0
+
+let mylatesttap;
 
 //resizing Canvas
 window.onresize = () => {
+    //not sure what is v
 
-    // v.style.width = v.style.height = canvas.width = canvas.height = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight
-    // sF = canvas.width/700
+    //normalize everthing to a 700x700 game size
+    sF = canvas.width/700
 }
 
 //set up & stuff
@@ -28,32 +35,13 @@ window.onload = () => {
 
     window.addEventListener("keyup",keyUp);
     window.addEventListener("keydown",keyDown);
-    window.addEventListener("click",onClick);
-
 }
 
 //game loop
 
 function gameLoop() {
-    
+
     window.requestAnimationFrame(gameLoop); //why not use an interval instead?
-    drawGame();
-    updateGame();
-
-
-}
-
-//drawing the game
-function drawGame () {
-    ctx.save();
-    ctx.fillStyle = "white";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    ctx.restore()
-}
-//updating the game
-function updateGame() {
-
 }
 //Keybind Functions
 

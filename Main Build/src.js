@@ -25,6 +25,8 @@ window.onload = () => {
 
     window.addEventListener("keyup",keyUp);
     window.addEventListener("keydown",keyDown);
+    window.addEventListener("click",onClick);
+
 }
 
 //game loop
@@ -35,19 +37,34 @@ function gameLoop() {
 }
 //Keybind Functions
 
+//controls for the game (desktop)
+/*
+w a s d, for movement, self explanotory
+space for dodge
+e for interact with objects
+click for attack, sword follows mouse movement
+
+*/
 function keyDown (evt) {
-    if (evt.key == "ArrowUp" || evt.key == "w" ) {
+    if (evt.key == "ArrowUp" || evt.key == "w" || evt.key == "z") { //z is for European keyboards
         console.log('up')
     }
     if (evt.key == "ArrowLeft" || evt.key == "a") {
         console.log('left')
     }
-    if (evt.key == "ArrowDown" || evt.key == "s") {
+    if (evt.key == "ArrowDown" || evt.key == "s" || evt.key == "q") { //q for European keyboards
         console.log('down')
     }
     if (evt.key == "ArrowRight" || evt.key == "d") {
         console.log('right')
     }
+    if (evt.key == " ") {
+        console.log('space');
+    }
+    if (evt.key == "e") {
+        console.log('interact');
+    }
+    
 }
 
 function keyUp(evt) {
@@ -63,5 +80,14 @@ function keyUp(evt) {
     if (evt.key == "ArrowRight" || evt.key == "d") {
         console.log('right')
     }
+    if (evt.key == " ") {
+        console.log('space');
+    }
+    if (evt.key == "e") {
+        console.log('interact');
+    }
+}
+function onClick (evt) {
+    
 }
 //Helper Functions

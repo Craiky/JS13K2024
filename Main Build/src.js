@@ -8,6 +8,10 @@ let ctx = canvas.getContext("2d")
 let canv = document.getElementById("g")
 let gfx = canv.getContext("2d")
 
+//variables and whatnot
+
+let frictionCoefficient = 0.5;
+
 //resizing Canvas
 window.onresize = () => {
 
@@ -63,10 +67,10 @@ click for attack, sword follows mouse movement
 */
 function keyDown (evt) {
     if (evt.key == "ArrowUp" || evt.key == "w" || evt.key == "z") { //z is for European keyboards
-        console.log('up')
+        player.yAcc = 3;
     }
     if (evt.key == "ArrowLeft" || evt.key == "a") {
-        console.log('left')
+        
     }
     if (evt.key == "ArrowDown" || evt.key == "s" || evt.key == "q") { //q for European keyboards
         console.log('down')
@@ -112,9 +116,16 @@ let player = {
     x:0,
     y:0,
     health:1,
+    xVel:0,
+    yVel:0,
+    xAcc:0,
+    yAcc:0,
     draw() {
 
     },
+    update() {
+
+    }
 
 }
 

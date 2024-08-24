@@ -28,6 +28,8 @@ let sF = 1
 //keep track of clicking
 let click = 0
 
+let eID = 0
+
 
 
 
@@ -195,29 +197,146 @@ let taylorSwift = {
     x:200,
     y:100,
     health:1,
-    currentPhase: 1,
+    currentPhase: 2,
     currentAttack: 1,
-    angle:0,
+    attackAngle:-Math.PI/2,
+    attackRadius:0,
+    attackWidth:1,
+    playerAngle:0,
+    shockwaveLaunched:false,
+    laserAttacked:false,
+    meleeAttack:false,
     draw() {
         ctx.fillStyle = 'purple';
         ctx.fillRect(this.x,this.y,20,40);
-        if (this.currentAttack == 1) {
-            ctx.fillStyle = 'green';
-            
-            ctx.save();
-            ctx.translate(this.x,this.y);
-            ctx.rotate(this.angle);
-            ctx.fillRect(0,0,3,1000);
-            ctx.restore();
+        if (this.currentPhase == 1) {
+            if (this.currentAttack == 1) {
+                ctx.fillStyle = 'green';
+                
+                ctx.save();
+                ctx.translate(this.x,this.y);
+                ctx.rotate(this.attackAngle);
+                ctx.fillRect(0,0,3,1000);
+                ctx.restore();
+    
+            } else if (this.currentAttack == 2) {
+                ctx.strokeStyle = 'green';
+                ctx.beginPath();
+                ctx.lineWidth = this.attackWidth;
+                ctx.arc(this.x,this.y,this.attackRadius,0,Math.PI);
+                ctx.stroke();
+                //radius, start angle, end angle, counterclockwise
+            }
+        } else if (this.currentPhase == 2) {
+            if (this.currentAttack == 1) {
+                ctx.strokeStyle = 'green';
+                ctx.beginPath();
+                ctx.lineWidth = this.attackWidth;
+                ctx.arc(this.x,this.y,this.attackRadius,this.playerAngle-Math.PI/4,this.playerAngle+Math.PI/4);
+                ctx.stroke();
+            } else if (this.currentAttack == 2) {
+                if (this.laserAttacked) {
+                    ctx.fillStyle = 'green';
+                    ctx.save();
+                    ctx.translate(this.x,this.y);
+                    ctx.rotate(this.attackAngle);
+                    ctx.fillRect(0,0,3,1000);
+                    ctx.restore();
+                }
+                
+                
+            } else if (this.currentAttack == 3) {
+                
+            } else if (this.currentAttack == 4) {
 
+            }
+            if (this.meleeAttack) { //if player gets too close, she should do a melee attack, 
+                    ctx.fillStyle = 'red';
+                    ctx.save();
+                    ctx.translate(this.x,this.y);
+                    ctx.rotate(this.attackAngle);
+                    ctx.fillRect(0,0,10,50);
+                    ctx.restore();
+            }
         }
+        
         
 
     },
     AI () {
-        if (this.currentAttack == 1) { //laser attack
-            this.angle+=0.01
+        if (this.currentPhase == 1) {
+            //if player tries to attack Taylor directly in this stage, she should say somethign like go away hater to indicate that she cannot be directlt attacked during this phase
+            if (this.currentAttack == 1) { //laser attack
+                this.attackAngle+=0.01;
+    
+                if (this.attackAngle >= Math.PI/2) {
+                    this.currentAttack = 2;
+                    this.attackAngle = -Math.PI/2;
+                    //maybe set delays between switching attacks
+                }
+            } else if (this.currentAttack == 2) {
+                this.attackRadius += 0.8
+                this.attackWidth += 0.03
+                if (this.attackRadius >= 600) {
+                    this.attackRadius = 0;
+                    this.attackWidth = 1;
+                    this.currentAttack = 1;
+                }
+            }
+            if (1 < 0) { //condition for second phase, e.g. all speakers destroyed
+
+            }
+        } else if (this.currentPhase == 2) {
+            //put playerAngle thing here, instead of constantly copying and pasting it
+            if ((!this.shockwaveLaunched && this.currentAttack == 1) || (!this.laserAttacked && this.currentAttack == 2)) {
+                    this.playerAngle = Math.abs(Math.atan((player.y-this.y)/(player.x-this.x))) //getting the players absolute reference angle
+                
+                    if (player.x < this.x && player.y > this.y) { //converts the angle from 0 to 2 PI, starting at standard position, and going clockwise
+                        this.playerAngle = (Math.PI - this.playerAngle);
+                    } else if (player.x < this.x && player.y < this.y) {
+                        this.playerAngle = (Math.PI + this.playerAngle) 
+                    } else if (player.x > this.x && player.y < this.y) {
+                        this.playerAngle = (Math.PI*2 - this.playerAngle)
+                    }
+            }
+
+            if (this.currentAttack == 1) {
+                if (!this.shockwaveLaunched) {
+                    this.shockwaveLaunched = true;
+                    setTimeout(()=>{this.shockwaveLaunched=false;this.attackRadius=0;this.attackWidth=1;this.currentAttack=0;setTimeout(()=>{this.currentAttack=2},2000)},6000); //resets attack, goes to next attack
+                }
+                this.attackRadius += 3
+                this.attackWidth += 0.05
+
+                
+                
+            } else if (this.currentAttack == 2) {
+                if (!this.laserAttacked) {
+                    this.laserAttacked = true;
+                    this.attackAngle = (this.playerAngle-Math.PI/3);
+                    setTimeout(()=>{this.laserAttacked = false;this.attackAngle=this.playerAngle;this.currentAttack=0;setTimeout(()=>{this.currentAttack=1},2000)},1500);
+                }
+                this.attackAngle-=0.02
+                
+                
+            } else if (this.currentAttack == 3) {
+                
+            } else if (this.currentAttack == 4) {
+
+            }
+            if (player.x > this.x - 50 && player.x < this.x + 50 && player.y > this.y - 50 && player.y < this.y + 50) { //if player gets too close, she should do a melee attack, 
+                this.currentAttack = 0;
+                if (!this.meleeAttack) {
+                    this.meleeAttack = true;
+                    this.attackAngle = (this.playerAngle-Math.PI/2-Math.PI/6);
+                    setTimeout(()=>{this.meleeAttack=false;},1000)
+                    
+                }
+                this.attackAngle+= 0.1
+                
+            }
         }
+        
     }
 
 }
@@ -267,4 +386,59 @@ function draw(imgIndex,posX,posY,scale=1){
     let sizeY = img.h*scale
 
     ctx.drawImage(spriteSheet, img.x, img.y, img.w, img.h, posX, posY, sizeX, sizeY)
+}
+
+
+let test = new Entity(100,100,[{id:0,x:10,y:10,scale:0.2,ani:{t:"s",scale:5,progress:0}}],eID,"test")
+eID++
+
+
+class Entity{
+    constructor(x,y,sprites,id,type){
+        this.id = id
+        this.x = x
+        this.y = y
+        this.type = type
+        this.sprites = sprites
+    }
+
+    draw(){
+        ctx.strokeStyle = "red"
+        ctx.strokeRect(this.x,this.y,100,100);
+
+        for(i=0;i<this.sprites.length;i++){
+
+            let x = this.sprites[i].x;
+            let y = this.sprites[i].y;
+
+
+            // let w = this.sprites[i].width*this.sprites[i].scale
+            // let h = this.sprites[i].height*this.sprites[i].scale
+
+            ctx.save()
+            ctx.translate(this.x+x,this.y+y)
+
+            if(this.sprites[i].ani){
+
+                if(this.sprites[i].ani.t.includes("t")){
+                    ctx.translate(this.sprites[i].ani.dest.x*(this.sprites[i].progress/100),this.sprites[i].ani.dest.y*(this.sprites[i].progress/100))
+                }
+
+                if(this.sprites[i].ani.t.includes("r")){
+                    
+                    ctx.translate(this.sprites[i].ani.anchor.x,this.sprites[i].ani.anchor.y)
+                    ctx.rotate(this.sprites[i].angle*(this.sprites[i].progress/100))
+                }
+                
+                if(this.sprites[i].ani.t.includes("s")){
+                    ctx.scale(this.sprites[i].ani.scale.x*(this.sprites[i].progress/100),this.sprites[i].ani.scale.y*(this.sprites[i].progress/100))
+                }
+            }
+
+            draw(this.sprites[i].id,0,0,this.sprites[i].scale);
+            ctx.restore()
+
+            this.sprites[i].ani.progress+=this.sprites[i].ani.speed
+        }
+    }
 }
